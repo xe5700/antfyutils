@@ -3,7 +3,7 @@
 name = "antfyutils"
 requires-python = ">= 3.8"
 license = {text = "GPLv3"}
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
 "aiohttp",
 "dataclasses-json",
