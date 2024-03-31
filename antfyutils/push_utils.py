@@ -8,8 +8,8 @@ import threading
 from typing import Deque, Set
 
 import aiohttp
-from antfyutils.data_obj import CfgDcNtfy, SendNtfyMessage
-from format import seconds_to_time, 秒转时间
+from .data_obj import CfgDcNtfy, SendNtfyMessage
+from .format import seconds_to_time, 秒转时间
 
 
 class PushUtils:
