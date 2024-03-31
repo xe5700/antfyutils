@@ -28,13 +28,19 @@ class PushUtils:
         self.info = info
         pass
     async def __run_loop(self):
-        msg = await self.pool.get()
-        if not msg:
-            return
+        asyncio.set_event_loop(self.eventloop)
         s = set()
-        s.add(asyncio.create_task(self.__push(msg)))
-        s.add(self.__run_loop())
-        await asyncio.gather(*s)
+        while True:
+            msg = await self.pool.get()
+            if not msg:
+                return
+            while msg:
+                s.add(asyncio.create_task(self.__push(msg)))
+                if self.pool.empty():
+                    break
+                msg = self.pool.get_nowait()
+            await asyncio.gather(*s)
+            await asyncio.sleep(1)
         pass
     def __run_thread(self):
         self.eventloop = asyncio.new_event_loop()
@@ -46,11 +52,12 @@ class PushUtils:
         pass
     def stopServer(self):
         if self.thread:
-            self.eventloop.run_in_executor(self.pool.put(None))
-            self.eventloop.run_in_executor(self.thread.join())
+            self.pool.put_nowait(None)
+            self.eventloop.stop()
+            self.thread.join(timeout=5)
         pass
-    async def push(self, msg:SendNtfyMessage):
-        await asyncio.wait_for(self.pool.put(msg), timeout=10)
+    def push(self, msg:SendNtfyMessage):
+        self.pool.put_nowait(msg)
     async def __push(self, msg: SendNtfyMessage):
         if not msg.topic:
             msg.topic = self.cfg.topic
