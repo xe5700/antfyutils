@@ -1,2 +1,2 @@
 from .push_utils import PushUtils
-from .obj import CfgDcNtfy,Attachment,RecvNtfyMessage,Action,SendNtfyMessage
+from .data_obj import CfgDcNtfy,Attachment,RecvNtfyMessage,Action,SendNtfyMessage

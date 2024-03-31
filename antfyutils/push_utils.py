@@ -8,7 +8,7 @@ import threading
 from typing import Deque, Set
 
 import aiohttp
-from obj import CfgDcNtfy, SendNtfyMessage
+from antfyutils.data_obj import CfgDcNtfy, SendNtfyMessage
 from format import seconds_to_time, 秒转时间
 
 
