@@ -57,7 +57,9 @@ class PushUtils:
             self.thread.join(timeout=5)
         pass
     def push(self, msg:SendNtfyMessage):
-        self.pool.put_nowait(msg)
+        def put():
+            self.pool.put_nowait(msg)
+        self.eventloop.call_soon_threadsafe(put)
     async def __push(self, msg: SendNtfyMessage):
         if not msg.topic:
             msg.topic = self.cfg.topic
