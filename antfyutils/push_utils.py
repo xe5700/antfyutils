@@ -40,7 +40,7 @@ class PushUtils:
                     break
                 msg = self.pool.get_nowait()
             await asyncio.gather(*s)
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.1)
         pass
     def __run_thread(self):
         self.eventloop = asyncio.new_event_loop()
