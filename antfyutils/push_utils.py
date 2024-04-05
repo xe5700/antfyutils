@@ -26,6 +26,7 @@ class PushUtils:
         self.thread = None
         self.cn = cn
         self.info = info
+        self.eventloop = asyncio.new_event_loop()
         pass
     async def __run_loop(self):
         asyncio.set_event_loop(self.eventloop)
@@ -43,7 +44,6 @@ class PushUtils:
             await asyncio.sleep(0.1)
         pass
     def __run_thread(self):
-        self.eventloop = asyncio.new_event_loop()
         self.eventloop.run_until_complete(self.__run_loop())
         pass
     def startServer(self):
